@@ -13,13 +13,15 @@ def getSequenceSummary(sequence_url, header_dict, query_dict={}):
     # Build the required JSON data for the post request. The user
     # of the function provides both the header and the query data
     url_dict = dict()
-    url_dict.update(header_dict)
+    #url_dict.update(header_dict)
     url_dict.update(query_dict)
     url_data = urllib.parse.urlencode(url_dict).encode()
 
     # Try to make the connection and get a response.
     try:
-        response = urllib.request.urlopen(sequence_url, data=url_data)
+        request = urllib.request.Request(sequence_url, url_data, header_dict)
+        #response = urllib.request.urlopen(sequence_url, data=url_data)
+        response = urllib.request.urlopen(request)
         url_response = response.read().decode(response.headers.get_content_charset())
     except urllib.error.HTTPError as e:
         print('Error: Server could not fullfil the request')
@@ -44,14 +46,16 @@ def getSamples(sample_url, header_dict, query_dict={}):
     # Build the required JSON data for the post request. The user
     # of the function provides both the header and the query data
     url_dict = dict()
-    url_dict.update(header_dict)
+    #url_dict.update(header_dict)
     url_dict.update(query_dict)
     url_data = urllib.parse.urlencode(url_dict).encode()
 
     # Try to connect the URL and get a response. On error return an
     # empty JSON array.
     try:
-        response = urllib.request.urlopen(sample_url, data=url_data)
+        request = urllib.request.Request(sample_url, url_data, header_dict)
+        #response = urllib.request.urlopen(sample_url, data=url_data)
+        response = urllib.request.urlopen(response)
         url_response = response.read().decode(response.headers.get_content_charset())
     except urllib.error.HTTPError as e:
         print('Error: Server could not fullfil the request')
@@ -145,35 +149,33 @@ def plotData(plot_data, xlabels, ylabels, title, filename):
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
                      rotation_mode="anchor")
 
+    # Save the file in the filename provided
     fig.savefig(filename, transparent=False, dpi=240, bbox_inches="tight")
 
 def getArguments():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="Note: for proper data processing, project --samples metadata should\n" +
-        "generally be read first into the database before loading other data types."
+        description=""
     )
 
+    # Field in the API to use for x dimension of the heatmap
     parser.add_argument("api_xfield")
+    # Field in the API to use for y dimension of the heatmap
     parser.add_argument("api_yfield")
+    # Values of the x field to use for x dimension of the heatmap
     parser.add_argument("graph_xvalues")
+    # Values of the y field to use for y dimension of the heatmap
     parser.add_argument("graph_yvalues")
+    # URL to used for the search
     parser.add_argument("base_url")
+    # Verbosity flag.
     parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
         help="Run the program in verbose mode. This option will generate a lot of output, but is recommended from a data provenance perspective as it will inform you of how it mapped input data columns into repository columns.")
 
-    # Add configuration options
-    #config_group = parser.add_argument_group("Configuration file options", "")
-    #config_group.add_argument(
-    #    "--mapfile",
-    #    dest="mapfile",
-    #    default="ireceptor.cfg",
-    #    help="the iReceptor configuration file. Defaults to 'ireceptor.cfg' in the local directory where the command is run. This file contains the mappings between the AIRR Community field definitions, the annotation tool field definitions, and the fields and their names that are stored in the repository."
-    #)
-
+    # Parse the options.
     options = parser.parse_args()
     return options
 
