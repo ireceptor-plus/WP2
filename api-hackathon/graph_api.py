@@ -12,13 +12,15 @@ def getSequenceSummary(sequence_url, header_dict, query_dict={}):
     # Build the required JSON data for the post request. The user
     # of the function provides both the header and the query data
     url_dict = dict()
-    url_dict.update(header_dict)
+    #url_dict.update(header_dict)
     url_dict.update(query_dict)
     url_data = urllib.parse.urlencode(url_dict).encode()
 
     # Try to make the connection and get a response.
     try:
-        response = urllib.request.urlopen(sequence_url, data=url_data)
+        request = urllib.request.Request(sequence_url, url_data, header_dict)
+        #response = urllib.request.urlopen(sequence_url, data=url_data)
+        response = urllib.request.urlopen(request)
         url_response = response.read().decode(response.headers.get_content_charset())
     except urllib.error.HTTPError as e:
         print('Error: Server could not fullfil the request')
@@ -43,14 +45,16 @@ def getSamples(sample_url, header_dict, query_dict={}):
     # Build the required JSON data for the post request. The user
     # of the function provides both the header and the query data
     url_dict = dict()
-    url_dict.update(header_dict)
+    #url_dict.update(header_dict)
     url_dict.update(query_dict)
     url_data = urllib.parse.urlencode(url_dict).encode()
 
     # Try to connect the URL and get a response. On error return an
     # empty JSON array.
     try:
-        response = urllib.request.urlopen(sample_url, data=url_data)
+        request = urllib.request.Request(sample_url, url_data, header_dict)
+        #response = urllib.request.urlopen(sample_url, data=url_data, headers=header_dict)
+        response = urllib.request.urlopen(request)
         url_response = response.read().decode(response.headers.get_content_charset())
     except urllib.error.HTTPError as e:
         print('Error: Server could not fullfil the request')
@@ -63,7 +67,7 @@ def getSamples(sample_url, header_dict, query_dict={}):
         return json.loads('[]')
 
     # Convert the response to JSON so we can process it easily.
-    print(url_response)
+    # print(url_response)
     json_data = json.loads(url_response)
     # Return the JSON data
     return json_data
@@ -81,117 +85,115 @@ def initHTTP():
         getattr(ssl, '_create_unverified_context', None)): 
         ssl._create_default_https_context = ssl._create_unverified_context
 
-# Set the base URL to use 
-#base_url = 'https://ipa1.ireceptor.org'
-#base_url = 'https://ipa2.ireceptor.org'
-#base_url = 'https://ipa3.ireceptor.org'
-#base_url = 'https://ipa4.ireceptor.org'
-#base_url = 'https://vdjserver.org/ireceptor'
-#base_url = 'http://turnkey-test2.ireceptor.org'
-
-# Junction AA length queries.
-#query_key = 'junction_aa_length'
-#query_values = range(40)
-
-# Possible v_call queries
-#query_key = 'v_call'
-#query_values = ['IGHV1','IGHV2','IGHV3','IGHV4','IGHV5','IGHV6','IGHV7']
-#query_key = 'd_call'
-#query_values = ['IGHD1','IGHD2','IGHD3','IGHD4','IGHD5','IGHD6','IGHD7']
-#query_values = ['TRBV1','TRBV2','TRBV3','TRBV4','TRBV5','TRBV6','TRBV7','TRBV8']
-
 def performQueryAnalysis(base_url, query_key, query_values):
     # Ensure our HTTP set up has been done.
     initHTTP()
-    # Get the HTTP header information (on the form of a dictionary)
+    # Get the HTTP header information (in the form of a dictionary)
     header_dict = getHeaderDict()
 
     # Select the API entry points to use, based on the base URL provided
     sample_url = base_url+'/v2/samples'
     sequence_url = base_url+'/v2/sequences_summary'
 
+    # Get the sample metadata for the query. We want to keep track of each sample
     sample_json = getSamples(sample_url, header_dict)
+    # Create a dictionary with keys as the ID for the sample.
     sample_dict = dict()
+    # For each sample, create an empty dictionary (to be filled in later)
     for sample in sample_json:
-        sample_dict[str(sample['_id'])] = dict()
+        sample_dict[str(sample['ir_project_sample_id'])] = dict()
 
     # Iterate over the query values of interest. One query per value gives us results
     # for all samples so this is about as efficient as it gets.
     for value in query_values:
+        # Create and do the query for this value.
         query_dict = dict()
         query_dict.update({query_key: value})
+        print('Performing query: ' + str(query_key) + ' = ' + str(value))
         sequence_summary_json = getSequenceSummary(sequence_url, header_dict, query_dict)
-        result = {}
+        # The query gives us a count for each sample. We iterate over the samples to do some
+        # bookkeeping for that sample.
         for sample in sequence_summary_json:
             # Get the dictionaries of values for this sample
-            value_dict = sample_dict[str(sample['_id'])]
+            value_dict = sample_dict[str(sample['ir_project_sample_id'])]
             # Update the count for the value we are considering
-            #pair = {sample['ir_filtered_sequence_count'], sample['sample_id']}
-            #value_dict.update({value:pair})
             filtered_sequence_count = sample['ir_filtered_sequence_count']
             value_dict.update({value:filtered_sequence_count})
-            sample_dict[str(sample['_id'])] = value_dict
-            #result[sample['_id'], value] = pair
+            sample_dict[str(sample['ir_project_sample_id'])] = value_dict
             print('   ' + query_key + ' ' + str(value) + ' = ' + str(sample['ir_filtered_sequence_count']))
 
+    # Create the data structure required for the graphing...
     data = dict()
     grand_total = 0
+    graph_total = 0
+    # Iterate over the samples.
     for sample in sample_json:
-        value_dict = sample_dict[str(sample['_id'])] 
+        # Print out some summary information for this sample.
+        value_dict = sample_dict[str(sample['ir_project_sample_id'])] 
         sequence_count = sample['ir_sequence_count']
+        grand_total = grand_total + sequence_count
         print('\nsample = ' + sample['sample_id'] + ' (' + str(sequence_count) + ')')
         total = 0
+        # Iterate over the values that we have accumulated.
         for key, value in value_dict.items():
+            # Add up the total count for each key and store it.
             if key in data:
                 data.update({key:data[key]+value})
             else:
                 data.update({key:value})
             print(str(key) + ' = ' + str(value) + ' (' + '%.2f' % ((value/sequence_count)*100.0) + '%)')
             total = total + value
-            grand_total = grand_total + value
-        print('sample = ' + sample['sample_id'] + ' (' + str(total) + ')')
+            graph_total = graph_total + value
+        # More summary information for this sample
+        if sequence_count > 0:
+            percent = (total/sequence_count)*100
+        else:
+            percent = 0
+        print('sample = ' + sample['sample_id'] + ' (' + str(total) + ' %.2f'%(percent) + '%)')
         
+    # Finally, dump out the actual data we are going to graph...
+    print('\nGraph data overview - ' + query_key + ':')
     for key, value in data.items():
         print(str(key) + ' = ' + str(value))
-    print('grand total = ' + str(grand_total))
+    if grand_total > 0:
+        percent = (graph_total/grand_total)*100
+    else:
+        percent = 0
+    print('graph total = ' + str(graph_total) + ' %.2f'%(percent) + '%')
 
+    # Return the data.
     return data
 
 def plotData(plot_names, plot_data, title, filename):
-    #plot_data = list(data.values())
-    #plot_names = list(data.keys())
-
+    # Set up the plot
     plt.rcParams.update({'figure.autolayout': True})
     fig, ax = plt.subplots()
+    # Make it a bar graph using the names and the data provided
     ax.barh(plot_names, plot_data)
-
+    # Write the graph to the filename provided.
     fig.savefig(filename, transparent=False, dpi=80, bbox_inches="tight")
 
 def getArguments():
+    # Set up the command line parser
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="Note: for proper data processing, project --samples metadata should\n" +
-        "generally be read first into the database before loading other data types."
+        description=""
     )
 
+    # Field in the API to use for the histogram
     parser.add_argument("api_field")
+    # Values to search for in the field to generate the histogram
     parser.add_argument("graph_values")
+    # The URL for the repository to search
     parser.add_argument("base_url")
+    # Verbosity flag
     parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
-        help="Run the program in verbose mode. This option will generate a lot of output, but is recommended from a data provenance perspective as it will inform you of how it mapped input data columns into repository columns.")
+        help="Run the program in verbose mode.")
 
-    # Add configuration options
-    #config_group = parser.add_argument_group("Configuration file options", "")
-    #config_group.add_argument(
-    #    "--mapfile",
-    #    dest="mapfile",
-    #    default="ireceptor.cfg",
-    #    help="the iReceptor configuration file. Defaults to 'ireceptor.cfg' in the local directory where the command is run. This file contains the mappings between the AIRR Community field definitions, the annotation tool field definitions, and the fields and their names that are stored in the repository."
-    #)
-
+    # Parse the command line arguements.
     options = parser.parse_args()
     return options
 
