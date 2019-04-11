@@ -75,8 +75,12 @@ def plotData(plot_data, xlabels, ylabels, title, filename):
     fig, ax = plt.subplots()
     im = ax.imshow(plot_data)
     # Create colorbar
-    cbar = ax.figure.colorbar(im, ax=ax)
-    cbar.ax.set_ylabel("Number of Annotations", rotation=-90, va="bottom")
+    cbar = ax.figure.colorbar(im, orientation="horizontal", pad=0.2, aspect=40, ax=ax)
+    cbar.ax.set_xlabel("Number of Annotations", va="top", fontsize=6)
+    plt.setp(cbar.ax.get_yticklabels(), fontsize=6)
+    plt.setp(cbar.ax.get_xticklabels(), fontsize=6)
+    #cbar = ax.figure.colorbar(im, ax=ax)
+    #cbar.ax.set_ylabel("Number of Annotations", rotation=-90, va="bottom")
 
     # We want to show all ticks...
     ax.set_xticks(np.arange(len(xlabels)))
