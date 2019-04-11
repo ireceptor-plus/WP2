@@ -14,7 +14,7 @@ xvals=`cat $filename2 | cut -f 1 | awk 'BEGIN {FS=","} /IG/ {print($1)} /TR/ {pr
 echo "$xvals"
 yvals=`cat $filename2 | cut -f 2 | awk 'BEGIN {FS=","} /IG/ {print($1)} /TR/ {print($1)}' | sort | uniq | awk '{if (NR>1) printf(",%s", $1); else printf("%s", $1)}'`
 echo "$yvals"
-python airr_heatmap.py v_call j_call $xvals $yvals $filename2 $x_column-$y_column-sample$sample.png
+python3 airr_heatmap.py v_call j_call $xvals $yvals $filename2 $x_column-$y_column-sample$sample.png
 
 rm $filename
 rm $filename2
