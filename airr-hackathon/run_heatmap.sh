@@ -15,7 +15,7 @@ x_column_str=v_call
 y_column_str=j_call
 
 # Get the data from the repository at the URL provided.
-curl -k -X POST -d "ir_project_sample_id_list[]=$sample" -d "output=tsv" -d "ir_data_format=airr" $url/v2/sequences_data > $filename
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=$sample" -d "output=tsv" -d "ir_data_format=airr" $url/v2/sequences_data > $filename
 
 # Get the columns numbers for the column labels of interest.
 x_column=`cat $filename | awk -F"\t" -v label=$x_column_str '{for(i=1;i<=NF;i++){if ($i == label){print i}}}'` 
