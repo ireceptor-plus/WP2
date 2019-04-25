@@ -14,6 +14,8 @@ filename2=/tmp/ipa1_filter_sample$sample.tsv
 x_column_str=v_call
 y_column_str=j_call
 
+SCRIPT_DIR=`dirname "$0"`
+
 # Get the data from the repository at the URL provided.
 curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=$sample" -d "output=tsv" -d "ir_data_format=airr" $url/v2/sequences_data > $filename
 
@@ -39,7 +41,7 @@ echo "$x_column_str"
 echo "$y_column_str"
 echo "$xvals"
 echo "$yvals"
-python3 airr_heatmap.py $x_column_str $y_column_str $xvals $yvals $filename2 $x_column_str-$y_column_str-sample$sample.png
+python3 $SCRIPT_DIR/airr_heatmap.py $x_column_str $y_column_str $xvals $yvals $filename2 $x_column_str-$y_column_str-sample$sample.png
 
 # Clean up our temporary files.
 #rm $filename
