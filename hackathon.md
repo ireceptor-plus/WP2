@@ -28,7 +28,7 @@ There are two simple python analysis applications that have been created that us
 To run the histogram application, simply type the following:
 
 ```
-~/WP2/api-hackathon/graph_api.py v_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7,IGHV8,IGHV9,IGHV10 http://turnkey-test2.ireceptor.org
+python3 ~/WP2/api-hackathon/graph_api.py v_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7,IGHV8,IGHV9,IGHV10 http://turnkey-test2.ireceptor.org
 ```
 Where:
 - v_call is the AIRR field on which you want the histogram to be performed.
@@ -38,7 +38,7 @@ Where:
 To run the heatmap application, simply type the following:
 
 ```
-~/WP2/api-hackathon/heatmap_api.py v_call j_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7,IGHV8 IGHJ2,IGHJ3,IGHJ4 http://turnkey-test2.ireceptor.org
+python3 ~/WP2/api-hackathon/heatmap_api.py v_call j_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7,IGHV8 IGHJ2,IGHJ3,IGHJ4 http://turnkey-test2.ireceptor.org
 ```
 Where
 - v_call is the AIRR field that you want to appear on the X axis of the heatmap.
@@ -46,3 +46,44 @@ Where
 - IGHV1 ... are the bins that you want to use on the X axis. The application will count the frequency of the appearance of that value in the repository for each of the bins on the Y axis.
 - IGHJ1 ... are the list of bins that you want to use on the Y axis. The application will count the frequency of the appearance of that value in the repository for each of the bins on the X axis.
 - http://turnkey-test2.ireceptor.org is the repository to query.
+
+### Downloading AIRR TSV using the Web API
+
+Two similar python analysis applications (and shell scripts) have been created that use the iReceptor API to download an AIRR TSV file and then perform the analysis on the AIRR TSV file. The python applications are supported by shell scripts that perform some pre-processing on the AIRR TSV files to prepare them for analysis. Note that the AIRR TSV analysis works on a single sample only. The shell script uses the Web API to query the repository for all of the data for a single sample, downloads the data for that sample, and then performs the analysis. There is a "helper" shell script available for searching for Database IDs for a sample.
+
+To run the histogram application, simply type the following:
+
+```
+~/WP2/airr-hackathon/run_histogram.sh 1 v_call http://turnkey-test2.ireceptor.org
+```
+Where:
+- "1" is the Database ID for a single sample.
+- "v_call" is the AIRR field on which you want the histogram to be performed.
+- http://turnkey-test2.ireceptor.org is the repository to query.
+
+To run the heatmap application, simply type the following:
+
+```
+~/WP2/airr-hackathon/run_heatmap.sh 9 http://turnkey-test2.ireceptor.org
+```
+Where
+- "9" is the Database ID for a single sample.
+- http://turnkey-test2.ireceptor.org is the repository to query.
+
+## Exploring the samples in a repository
+
+There is also a simple bash shell script that will allow you to query a repository and extract the "Repertoire Metadata" in a repository.
+
+To run the sample shell script, simply type:
+
+```
+~/WP2/airr-hackathon/get_samples.sh http://turnkey-test2.ireceptor.org
+```
+
+This will return a JSON response for all of the Repertoires in the given repository.
+
+If you want to look at a specific AIRR field in the Repertoire Metadata simply use "grep" to filter for the AIRR term of interest.
+
+```
+~/WP2/airr-hackathon/get_samples.sh http://turnkey-test2.ireceptor.org | egrep "study_title|study_id"
+```
