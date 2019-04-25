@@ -174,6 +174,8 @@ def plotData(plot_names, plot_data, title, filename):
     ax.barh(plot_names, plot_data)
     # Write the graph to the filename provided.
     fig.savefig(filename, transparent=False, dpi=80, bbox_inches="tight")
+    print('Saved image in ' + filename)
+
 
 def getArguments():
     # Set up the command line parser

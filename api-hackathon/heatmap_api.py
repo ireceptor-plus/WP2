@@ -150,8 +150,11 @@ def plotData(plot_data, xlabels, ylabels, title, filename):
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
                      rotation_mode="anchor")
 
+    plt.show()
+
     # Save the file in the filename provided
     fig.savefig(filename, transparent=False, dpi=240, bbox_inches="tight")
+    print('Saved image in ' + filename)
 
 def getArguments():
     parser = argparse.ArgumentParser(

@@ -42,6 +42,7 @@ echo "$y_column_str"
 echo "$xvals"
 echo "$yvals"
 python3 $SCRIPT_DIR/airr_heatmap.py $x_column_str $y_column_str $xvals $yvals $filename2 $x_column_str-$y_column_str-sample$sample.png
+echo "Wrote image to $x_column_str-$y_column_str-sample$sample.png"
 
 # Clean up our temporary files.
 #rm $filename
