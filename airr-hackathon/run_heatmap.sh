@@ -29,7 +29,7 @@ y_column=`cat $filename | awk -F"\t" -v label=$y_column_str '{for(i=1;i<=NF;i++)
 # As a result we chop things off at the first star. This also takes care of the case where
 # a gened call has multiple calls. Since we drop everthing after the first allele we drop all of 
 # the other calls as well.
-cat $filename | cut -f $x_column,$y_column | awk -v xlabel=$x_column_str -v ylabel=$y_column_str 'BEGIN {FS="\t"; printf("%s\t%s\n", xlabel, ylabel)} /IG|TR/ {printf("%s\t%s\n",substr($1,0,index($1,"*")-1), substr($2,0,index($2,"*")-1))}' > $filename2
+cat $filename | cut -f $x_column,$y_column | awk -v xlabel=$x_column_str -v ylabel=$y_column_str 'BEGIN {FS="\t"; printf("%s\t%s\n", xlabel, ylabel)} /IG|TR/ {printf("%s\t%s\n",substr($1,1,index($1,"*")-1), substr($2,1,index($2,"*")-1))}' > $filename2
 
 # Generate a set of unique values that we can generate the heatmap on. This is a comma separated
 # list of unique gene names for each of the two fields of interest.
