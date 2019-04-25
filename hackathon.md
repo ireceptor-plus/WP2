@@ -85,5 +85,7 @@ This will return a JSON response for all of the Repertoires in the given reposit
 If you want to look at a specific AIRR field in the Repertoire Metadata simply use "grep" to filter for the AIRR term of interest.
 
 ```
-~/WP2/airr-hackathon/get_samples.sh http://turnkey-test2.ireceptor.org | egrep "study_title|study_id"
+~/WP2/airr-hackathon/get_samples.sh http://turnkey-test2.ireceptor.org | egrep "\"_id|study_title|study_id|ir_sequence_count"
 ```
+
+This will return the Database ID (_id_), the Study Title (study_title), the Study ID (study_id), and the number of annotated sequences (ir_sequence_count), for each Repertoire. 
