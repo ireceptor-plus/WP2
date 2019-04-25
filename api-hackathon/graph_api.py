@@ -101,7 +101,7 @@ def performQueryAnalysis(base_url, query_key, query_values):
     sample_dict = dict()
     # For each sample, create an empty dictionary (to be filled in later)
     for sample in sample_json:
-        sample_dict[str(sample['ir_project_sample_id'])] = dict()
+        sample_dict[str(sample['_id'])] = dict()
 
     # Iterate over the query values of interest. One query per value gives us results
     # for all samples so this is about as efficient as it gets.
@@ -111,15 +111,17 @@ def performQueryAnalysis(base_url, query_key, query_values):
         query_dict.update({query_key: value})
         print('Performing query: ' + str(query_key) + ' = ' + str(value))
         sequence_summary_json = getSequenceSummary(sequence_url, header_dict, query_dict)
+        #print(sequence_summary_json)
         # The query gives us a count for each sample. We iterate over the samples to do some
         # bookkeeping for that sample.
         for sample in sequence_summary_json:
             # Get the dictionaries of values for this sample
-            value_dict = sample_dict[str(sample['ir_project_sample_id'])]
+            #print(sample['sample_id'])
+            value_dict = sample_dict[str(sample['_id'])]
             # Update the count for the value we are considering
             filtered_sequence_count = sample['ir_filtered_sequence_count']
             value_dict.update({value:filtered_sequence_count})
-            sample_dict[str(sample['ir_project_sample_id'])] = value_dict
+            sample_dict[str(sample['_id'])] = value_dict
             print('   ' + query_key + ' ' + str(value) + ' = ' + str(sample['ir_filtered_sequence_count']))
 
     # Create the data structure required for the graphing...
@@ -129,7 +131,7 @@ def performQueryAnalysis(base_url, query_key, query_values):
     # Iterate over the samples.
     for sample in sample_json:
         # Print out some summary information for this sample.
-        value_dict = sample_dict[str(sample['ir_project_sample_id'])] 
+        value_dict = sample_dict[str(sample['_id'])] 
         sequence_count = sample['ir_sequence_count']
         grand_total = grand_total + sequence_count
         print('\nsample = ' + sample['sample_id'] + ' (' + str(sequence_count) + ')')
