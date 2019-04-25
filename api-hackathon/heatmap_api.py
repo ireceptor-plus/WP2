@@ -5,7 +5,7 @@ import os, ssl
 import sys
 import time
 import numpy as np
-import matplotlib
+#import matplotlib
 import matplotlib.pyplot as plt
 from collections import OrderedDict
 
@@ -128,7 +128,8 @@ def performQueryAnalysis(base_url, query_xkey, query_ykey, query_xvalues, query_
 def plotData(plot_data, xlabels, ylabels, title, filename):
     # Plot code borrowed from here: https://matplotlib.org/gallery/images_contours_and_fields/image_annotated_heatmap.html
 
-    matplotlib.use('Agg')
+    #matplotlib.use('Agg')
+    plt.rcParams.update({'figure.autolayout': True})
     fig, ax = plt.subplots()
     im = ax.imshow(plot_data)
     # Create colorbar
