@@ -131,6 +131,8 @@ def plotData(plot_data, xlabels, ylabels, title, filename):
     #matplotlib.use('Agg')
     plt.rcParams.update({'figure.autolayout': True})
     fig, ax = plt.subplots()
+    # Remove warning
+    fig.set_tight_layout(False)
     im = ax.imshow(plot_data)
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax)
