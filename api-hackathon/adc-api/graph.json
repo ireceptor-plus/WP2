@@ -1,0 +1,23 @@
+{
+        "filters": {
+          "op":"and",
+          "content": [
+            {
+              "op":"=",
+              "content": {
+                "field":"repertoire_id",
+                "value":"1841923116114776551-242ac11c-0001-012"
+              }
+            },
+            {
+              "op":"=",
+              "content": {
+                "field":"v_call",
+                "value":"TRBV5-1*01"
+              }
+            }
+          ]
+        },
+        "facets":"repertoire_id"
+}
+
