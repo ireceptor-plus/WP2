@@ -144,6 +144,8 @@ def plotData(plot_names, plot_data, title, filename):
     # Set up the plot
     plt.rcParams.update({'figure.autolayout': True})
     fig, ax = plt.subplots() 
+    # Remove warning
+    fig.set_tight_layout(False)
     # Make it a bar graph using the names and the data provided
     ax.barh(plot_names, plot_data)
     # Write the graph to the filename provided.
