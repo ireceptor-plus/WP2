@@ -1,0 +1,12 @@
+{
+    "filters": {
+        "op":"=",
+        "content": {
+            "field":"v_call",
+            "value":"TRBV5-1*01"
+        }
+    },
+    "from":10,
+    "size":5,
+    "fields":["rearrangement_id", "v_call", "junction_aa"]
+}
