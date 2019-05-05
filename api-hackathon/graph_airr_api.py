@@ -24,11 +24,13 @@ def getRearrangement(rearrangement_url, header_dict, query_dict={}):
         response = urllib.request.urlopen(request)
         url_response = response.read().decode(response.headers.get_content_charset())
     except urllib.error.HTTPError as e:
+        print('Error: URL = ' + rearrangement_url)
         print('Error: Server could not fullfil the request')
         print('Error: Error code =', e.code)
         print(e.read())
         return json.loads('[]')
     except urllib.error.URLError as e:
+        print('Error: URL = ' + rearrangement_url)
         print('Error: Failed to reach the server')
         print('Error: Reason =', e.reason)
         return json.loads('[]')
@@ -88,7 +90,7 @@ def getQuery(query_key, query_value):
     # Buld the query dictionary according to the AIRR API standard
     rearrangement_query = {
         "filters": {
-              "op":"=",
+              "op":"contains",
               "content": {
                 "field":str(query_key),
                 "value":str(query_value)
@@ -148,6 +150,8 @@ def plotData(plot_names, plot_data, title, filename):
     fig.set_tight_layout(False)
     # Make it a bar graph using the names and the data provided
     ax.barh(plot_names, plot_data)
+    ax.set_title(title)
+
     # Write the graph to the filename provided.
     fig.savefig(filename, transparent=False, dpi=240)
     print('Saved image in ' + filename)
@@ -187,8 +191,9 @@ if __name__ == "__main__":
     data = performQueryAnalysis(options.base_url, options.api_field, values)
     sorted_data = OrderedDict(sorted(data.items(), key=lambda t: t[0]))
     # Graph the results
-    title = options.api_field
-    filename = options.api_field + ".png"
+    title = options.base_url + " " + options.api_field
+    url_info = urllib.parse.urlparse(options.base_url)
+    filename = url_info.netloc + "-" + options.api_field + ".png"
     plotData(list(sorted_data.keys()), list(sorted_data.values()), title, filename)
 
     # Return success
