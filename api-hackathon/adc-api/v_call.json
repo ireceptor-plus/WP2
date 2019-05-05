@@ -23,5 +23,8 @@
             }
           ]
         },
-        "facets":"repertoire_id"
+        "from":10,
+        "size":5,
+        "fields":["v_call", "repertoire_id"],
+        "testfacets":"repertoire_id"
 }
