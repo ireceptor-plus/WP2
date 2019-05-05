@@ -6,8 +6,8 @@ Requirements: python modules numpy, matplotlib, airr
 
 ## API Documentation
 
-[iReceptor Web Service API documentation](http://ireceptor.irmacs.sfu.ca/node/112)
-[AIRR Data Commons Web Service API documentation](https://github.com/airr-community/airr-standards/blob/metadata-docs/docs/api/overview.rst)
+* [iReceptor Web Service API documentation](http://ireceptor.irmacs.sfu.ca/node/112)
+* [AIRR Data Commons Web Service API documentation](https://github.com/airr-community/airr-standards/blob/metadata-docs/docs/api/overview.rst)
 
 ## Running the API based code
 
