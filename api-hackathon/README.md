@@ -31,3 +31,21 @@ python heatmap_api.py v_call j_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7 IG
 
 ## Using the API with 'curl'
 
+The unix command line tool curl is a useful tool to query repositories using both the iReceptor and the AIRR APIs. Curl allows you to build API calls in
+```
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" http://turnkey-test.ireceptor.org/v2/samples
+```
+This curl command makes does the following
+* It queries the web server at http://turnkey-test2.ireceptor.org
+* The query request uses the /v2/samples API entry point to make the query
+* It sets the headers for the request to let it know that the response is JSON and that the content being sent is "x-www-form-urlencoded" (required, but not explained!)
+* It initiates the request as POST request (most requests are either HTTP POST or GET requests)
+* It allows insecure transactions (-k), again required and not explained...
+
+```
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" /v2/samples | python -m json.tool
+```
+
+```
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=$sample" -d "output=tsv" -d "ir_data_format=airr" $url/v2/sequences_data > $filename
+```
