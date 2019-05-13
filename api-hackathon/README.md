@@ -63,6 +63,6 @@ curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-w
 ```
 
 This entry point takes the following parameters:
-* output=tsv - specifies that the type of data (tab delimited file).
-* ir_data_format=airr - specify that the contents of the file format is AIRR compliant data.
+* ```-d "output=tsv"``` - specifies that the type of data (tab delimited file).
+* ```-d "ir_data_format=airr" - specify that the contents of the file format is AIRR compliant data.
 
