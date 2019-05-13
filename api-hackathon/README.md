@@ -33,7 +33,7 @@ python heatmap_api.py v_call j_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7 IG
 
 The unix command line tool curl is a useful tool to query repositories using both the iReceptor and the AIRR APIs. Curl allows you to build API calls in
 ```
-curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" http://turnkey-test.ireceptor.org/v2/samples
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" http://turnkey-test2.ireceptor.org/v2/samples
 ```
 This curl command makes does the following
 * It queries the web server at http://turnkey-test2.ireceptor.org
@@ -42,10 +42,26 @@ This curl command makes does the following
 * It initiates the request as POST request (most requests are either HTTP POST or GET requests)
 * It allows insecure transactions (-k), again required and not explained...
 
-```
-curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" /v2/samples | python -m json.tool
-```
+In order to view this in a form that is a little easier to read, it is possible to use the python json.tool module.
 
 ```
-curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=$sample" -d "output=tsv" -d "ir_data_format=airr" $url/v2/sequences_data > $filename
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded"  http://turnkey-test2.ireceptor.org//v2/samples | python -m json.tool
 ```
+
+Finally, if you want to look at the annotated sequences and their rearrangement features, you can use the /v2/sequence_summary API entry point. This returns both a summary of the samples that are found as well as a small, representative subset of the data that fits the search criteria. The query below searches for all of the sequence annotations from a single "sample=1" by specifying ```-d "ir_project_sample_id_list[]=1"```
+
+```
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=1"  http://turnkey-test2.ireceptor.org//v2/sequences_summary
+```
+If you want to search for a specific rearrangement feature (a specific v_call) you can provide that as a parameter in the form of the parameter ```-d "v_call=IGHV1"```
+```
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=1"  -d "v_call=IGHV1" http://turnkey-test2.ireceptor.org//v2/sequences_summary
+```
+If you want to download the data, you can use the following API call:
+```
+curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "ir_project_sample_id_list[]=1" -d "output=tsv" -d "ir_data_format=airr"  http://turnkey-test2.ireceptor.org//v2/sequences_data > $filename
+```
+
+This entry point takes the following parameters:
+* output=tsv - specifies that the type of data. "tsv" is an AIRR TSV file.
+* 
