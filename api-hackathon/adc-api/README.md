@@ -1,5 +1,8 @@
+This directory contains a set of useful JSON queries using the AIRR Data Commons query API (ADC API).
 
 # iReceptor API equivalents
+
+Below you will find a description of a set of ADC API queries that are for the most part functionally equivalent to the older iReceptor API queries. 
 
 ## The /v2/samples equivalents
 
