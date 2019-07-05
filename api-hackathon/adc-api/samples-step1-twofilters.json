@@ -1,0 +1,21 @@
+{
+  "filters": {
+    "op":"and",
+    "content": [
+      {
+        "op":"=",
+        "content": {
+          "field":"subject.subject_id",
+          "value":"TW05B"
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"sample.cell_subset",
+          "value":"Memory CD8+ T cell"
+        }
+      }
+    ]
+  }
+}

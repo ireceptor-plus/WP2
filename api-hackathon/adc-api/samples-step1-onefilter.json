@@ -1,0 +1,9 @@
+{
+  "filters": {
+        "op":"=",
+        "content": {
+          "field":"subject.subject_id",
+          "value":"TW05B"
+        }
+  }
+}

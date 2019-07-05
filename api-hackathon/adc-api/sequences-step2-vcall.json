@@ -1,0 +1,24 @@
+{
+  "filters": {
+    "op":"and",
+    "content": [
+      {
+        "op":"in",
+        "content": {
+          "field":"repertoire_id",
+          "value":[
+            "5168912186246295065-242ac11c-0001-012"
+          ]
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"v_call",
+          "value":"TRAV8-2*01"
+        }
+      }
+    ]
+  },
+  "facets":"repertoire_id"
+}
