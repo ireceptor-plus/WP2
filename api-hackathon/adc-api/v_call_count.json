@@ -3,7 +3,7 @@
               "op":"=",
               "content": {
                 "field":"v_call",
-                "value":"TRBV5-1*01"
+                "value":"IGHV4-34*01"
               }
         },
         "facets":"repertoire_id"
