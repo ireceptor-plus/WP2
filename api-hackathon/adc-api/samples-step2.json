@@ -1,12 +1,3 @@
 {
-    "filters": {
-        "op":"in",
-        "content": {
-          "field":"repertoire_id",
-          "value":[
-            "5168912186246295065-242ac11c-0001-012"
-          ]
-        }
-    },
     "facets":"repertoire_id"
 }
