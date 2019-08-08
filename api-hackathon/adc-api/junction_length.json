@@ -6,5 +6,6 @@
                 "value":"36"
               }
         },
-        "facets":"repertoire_id"
+	"fields":["repertoire_id","junction_length"]
+
 }
