@@ -1,0 +1,11 @@
+{
+        "filters": {
+              "op":"=",
+              "content": {
+                "field":"junction_aa",
+                "value":"CARESSDSSGFDFYYYYGLDVW"
+              }
+        },
+	"fields":["repertoire_id","junction_aa"]
+
+}
