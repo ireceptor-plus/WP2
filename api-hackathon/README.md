@@ -19,6 +19,12 @@ python graph_api.py v_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7 http://turn
 
 python graph_api.py junction_aa_length 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26 http://turnkey-test2.ireceptor.org
 
+python graph_sample_api.py Patient3-T3 junction_aa_length 05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29 https://ipa4.ireceptor.org
+
+python graph_sample_api.py Patient3-T3 v_call TRBV1,TRBV2,TRBV3,TRBV4,TRBV5,TRBV6,TRBV7 https://ipa4.ireceptor.org
+
+python graph_sample_api.py Patient3-T1 v_call 'TRBV7-1,TRBV7-2,TRBV7-3,TRBV7-4,TRBV7-5,TRBV7-6,TRBV7-7,TRBV7-8,TRBV7-9,TRBV7-10,TRBV7-11,TRBV12-4*02' https://ipa4.ireceptor.org
+
 python graph_airr_api.py v_call TRBV1,TRBV2,TRBV3,TRBV4,TRBV5,TRBV6,TRBV7 https://vdjserver.org/airr
 
  python graph_airr_api.py junction_length 30,33,36,39,42,45,48,51,54,57,60 https://vdjserver.org/airr
@@ -31,18 +37,18 @@ python heatmap_api.py v_call j_call IGHV1,IGHV2,IGHV3,IGHV4,IGHV5,IGHV6,IGHV7 IG
 
 ## Using the API with 'curl'
 
-The unix command line tool curl is a useful tool to query repositories using both the iReceptor and the AIRR APIs. Curl allows you to build API calls in
+The unix command line tool curl is a useful tool to query repositories using both the iReceptor and the AIRR APIs. Curl allows you to build API calls in the following way:
 ```
 curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" http://turnkey-test2.ireceptor.org/v2/samples
 ```
-This curl command makes does the following
+This curl command does the following
 * It queries the web server at http://turnkey-test2.ireceptor.org
 * The query request uses the /v2/samples API entry point to make the query
 * It sets the headers for the request to let it know that the response is JSON and that the content being sent is "x-www-form-urlencoded" (required, but not explained!)
-* It initiates the request as POST request (most requests are either HTTP POST or GET requests)
+* It initiates the request as a POST request (most requests are either HTTP POST or GET requests)
 * It allows insecure transactions (-k), again required and not explained...
 
-In order to view this in a form that is a little easier to read, it is possible to use the python json.tool module.
+In order to view the response from this command in a form that is a little easier to read, it is possible to use the python json.tool module.
 
 ```
 curl -k -X POST  -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded"  http://turnkey-test2.ireceptor.org//v2/samples | python -m json.tool
