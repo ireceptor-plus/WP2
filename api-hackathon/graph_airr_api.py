@@ -90,10 +90,10 @@ def getQuery(query_key, query_value):
     # Buld the query dictionary according to the AIRR API standard
     rearrangement_query = {
         "filters": {
-              "op":"contains",
+              "op":"=",
               "content": {
                 "field":str(query_key),
-                "value":str(query_value)
+                "value":query_value
               }
         },
         "facets":"repertoire_id"
@@ -121,6 +121,7 @@ def performQueryAnalysis(base_url, query_key, query_values):
         # aggregated by repertoire_id. This gives us a list of values per repertoire.
         query_dict = getQuery(query_key, value)
         print('Performing query: ' + str(query_key) + ' = ' + str(value))
+        print(query_dict)
         # Perform the query.
         query_json = getRearrangement(rearrangement_url, header_dict, query_dict)
         # Extract the "Rearrangement" component of the JSON response.
