@@ -101,7 +101,8 @@ def performQueryAnalysis(base_url, query_key, query_values):
     sample_dict = dict()
     # For each sample, create an empty dictionary (to be filled in later)
     for sample in sample_json:
-        sample_dict[str(sample['_id'])] = dict()
+        #sample_dict[str(sample['_id'])] = dict()
+        sample_dict[str(sample['ir_project_sample_id'])] = dict()
 
     # Iterate over the query values of interest. One query per value gives us results
     # for all samples so this is about as efficient as it gets.
@@ -175,8 +176,10 @@ def plotData(plot_names, plot_data, title, filename):
     fig.set_tight_layout(False)
     # Make it a bar graph using the names and the data provided
     ax.barh(plot_names, plot_data)
+    ax.set_title(title)
     # Write the graph to the filename provided.
-    fig.savefig(filename, transparent=False, dpi=80, bbox_inches="tight")
+    #fig.savefig(filename, transparent=False, dpi=240, bbox_inches="tight")
+    fig.savefig(filename, transparent=False, dpi=240)
     print('Saved image in ' + filename)
 
 
@@ -211,11 +214,15 @@ if __name__ == "__main__":
     # Split the comma separated input string.
     values = options.graph_values.split(',')
     # Perform the query analysis, gives us back a dictionary.
+    t_start = time.perf_counter()
     data = performQueryAnalysis(options.base_url, options.api_field, values)
+    t_end = time.perf_counter()
+    print("Total query time =", (t_end - t_start), "seconds", flush=True)
     sorted_data = OrderedDict(sorted(data.items(), key=lambda t: t[0]))
     # Graph the results
-    title = options.api_field
-    filename = options.api_field + ".png"
+    title = options.base_url + " - " + options.api_field
+    url_info = urllib.parse.urlparse(options.base_url)
+    filename = url_info.netloc + "-" + options.api_field + ".png"
     plotData(list(sorted_data.keys()), list(sorted_data.values()), title, filename)
 
     # Return success
