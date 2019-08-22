@@ -4,11 +4,11 @@ import json
 import os, ssl
 import sys
 import time
-import numpy as np
-import matplotlib.pyplot as plt
-from collections import OrderedDict
+#import numpy as np
+#import matplotlib.pyplot as plt
+#from collections import OrderedDict
 
-def processQuery(query_url, header_dict, query_dict={}):
+def processQuery(query_url, header_dict, query_dict={}, verbose=False, force=False):
     # Build the required JSON data for the post request. The user
     # of the function provides both the header and the query data
 
@@ -21,21 +21,49 @@ def processQuery(query_url, header_dict, query_dict={}):
     # Try to connect the URL and get a response. On error return an
     # empty JSON array.
     try:
+        # Build the request
         request = urllib.request.Request(query_url, query_json_encoded, header_dict)
+        # Make the request and get a handle for the response.
         response = urllib.request.urlopen(request)
-        url_response = response.read().decode(response.headers.get_content_charset())
+        # Read the response
+        url_response = response.read()
+        # If we have a charset for the response, decode using it, otherwise assume utf-8
+        if not response.headers.get_content_charset() is None:
+            url_response = url_response.decode(response.headers.get_content_charset())
+        else:
+            url_response = url_response.decode("utf-8")
+
     except urllib.error.HTTPError as e:
-        print('Error: Server could not fullfil the request to ' + query_url)
-        print('Error: Error code =', e.code)
+        print('ERROR: Server could not fullfil the request to ' + query_url)
+        print('ERROR: Error code =', e.code)
         print(e.read())
         return json.loads('[]')
     except urllib.error.URLError as e:
-        print('Error: Failed to reach the server')
-        print('Error: Reason =', e.reason)
+        print('ERROR: Failed to reach the server')
+        print('ERROR: Reason =', e.reason)
+        return json.loads('[]')
+    except Exception as e:
+        print('ERROR: Unable to process response')
+        print('ERROR: Reason =' + str(e))
         return json.loads('[]')
 
     # Convert the response to JSON so we can process it easily.
-    json_data = json.loads(url_response)
+    try:
+        json_data = json.loads(url_response)
+    except json.decoder.JSONDecodeError as error:
+        if force:
+            print("WARNING: Unable to process JSON response: " + str(error))
+            return json_data
+        else:
+            print("ERROR: Unable to process JSON response: " + str(error))
+            if verbose:
+                print("ERROR: JSON = " + url_response)
+            return json.loads('[]')
+    except Exception as error:
+        print("ERROR: Unable to process JSON response: " + str(error))
+        if verbose:
+            print("ERROR: JSON = " + url_response)
+        return json.loads('[]')
 
     # Return the JSON data
     return json_data
@@ -73,7 +101,7 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
             return 0
         except json.JSONDecodeError as error:
             if force:
-                print("Warning: JSON Decode error detected in " + query_file + ": " + str(error))
+                print("WARNING: JSON Decode error detected in " + query_file + ": " + str(error))
                 with open(query_file, 'r') as f:
                     query_dict = f.read().replace('\n', '')
             else:
@@ -84,12 +112,12 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
             return 0
             
         if verbose:
-            print('Performing query: ' + str(query_dict))
+            print('INFO: Performing query: ' + str(query_dict))
 
         # Perform the query.
-        query_json = processQuery(query_url, header_dict, query_dict)
+        query_json = processQuery(query_url, header_dict, query_dict, verbose, force)
         if verbose:
-            print('Query response: ' + str(query_json))
+            print('INFO: Query response: ' + str(query_json))
 
         # Print out an error if the query failed.
         if len(query_json) == 0:
@@ -107,7 +135,7 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
         #data.update({value:total})
         #graph_total = graph_total + total
         #print("Total for " + query_key + "/" + value + " = " + str(total))
-        print('Query file ' + query_file + ' to ' + query_url + ' OK')
+        print('INFO: Query file ' + query_file + ' to ' + query_url + ' OK')
 
     return 1
 
