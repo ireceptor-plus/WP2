@@ -98,7 +98,7 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
                 query_dict = json.load(f)
         except IOError as error:
             print("ERROR: Unable to open JSON file " + query_file + ": " + str(error))
-            return 0
+            return 1
         except json.JSONDecodeError as error:
             if force:
                 print("WARNING: JSON Decode error detected in " + query_file + ": " + str(error))
@@ -106,10 +106,10 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
                     query_dict = f.read().replace('\n', '')
             else:
                 print("ERROR: JSON Decode error detected in " + query_file + ": " + str(error))
-                return 0
+                return 1
         except Exception as error:
             print("ERROR: Unable to open JSON file " + query_file + ": " + str(error))
-            return 0
+            return 1
             
         if verbose:
             print('INFO: Performing query: ' + str(query_dict))
@@ -122,7 +122,7 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
         # Print out an error if the query failed.
         if len(query_json) == 0:
             print('ERROR: Query file ' + query_file + ' to ' + query_url + ' failed')
-            return 0
+            return 1
 
         # Extract the "Rearrangement" component of the JSON response.
         #rearrangement_json = query_json["Rearrangement"]
@@ -137,7 +137,7 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
         #print("Total for " + query_key + "/" + value + " = " + str(total))
         print('INFO: Query file ' + query_file + ' to ' + query_url + ' OK')
 
-    return 1
+    return 0
 
 def getArguments():
     # Set up the command line parser
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     # Split the comma separated input string.
     query_files = options.query_files.split(',')
     # Perform the query analysis, gives us back a dictionary.
-    data = testAPI(options.base_url, options.entry_point, query_files, options.verbose, options.force)
+    error_code = testAPI(options.base_url, options.entry_point, query_files, options.verbose, options.force)
     # Return success
-    sys.exit(0)
+    sys.exit(error_code)
 
