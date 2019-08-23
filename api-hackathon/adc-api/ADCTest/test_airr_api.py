@@ -140,6 +140,10 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
             print("ERROR: Expected to find a '" + response_tag +"' object, none found")
             return 1
         
+        query_response_array = query_json[response_tag]
+        num_responses = len(query_response_array)
+        print("INFO: Received " + str(num_responses) + " " + entry_point + "s from query")
+
         # Check for the correct type of response data depending on entry point
         #if 
         # Extract the "Rearrangement" component of the JSON response.
