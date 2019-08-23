@@ -124,6 +124,25 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
             print('ERROR: Query file ' + query_file + ' to ' + query_url + ' failed')
             return 1
 
+        # Check for a correct Info object.
+        if not "Info" in query_json:
+            print("ERROR: Expected to find an 'Info' object, none found")
+            return 1
+
+        if entry_point == "rearrangement":
+            response_tag = "Rearrangement"
+        elif entry_point == "repertoire":
+            response_tag = "Repertoire"
+        else:
+            print("ERROR: I don't know how to check a '" + entry_point + "' API entry_point")
+            return 1
+
+        if not response_tag in query_json:
+            print("ERROR: Expected to find a '" + response_tag +"' object, none found")
+            return 1
+        
+        # Check for the correct type of response data depending on entry point
+        #if 
         # Extract the "Rearrangement" component of the JSON response.
         #rearrangement_json = query_json["Rearrangement"]
         # Because we aggregated via repertoire_id, we need to iterate over the
