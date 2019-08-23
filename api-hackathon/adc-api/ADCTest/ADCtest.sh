@@ -30,11 +30,27 @@ shift
 let "error_count=0"
 let "total_count=0"
 while [ "$1" != "" ]; do
+    # Handle -v. It essentially toggles verbosity on and off. So you can have
+    # something like -v v1.json v2.json -v q1.json q2.json where v1 and v2
+    # are processed with verbosity on and q1 and q2 are processed quitely.
+    if [ "$1" == "-v" ] 
+    then
+        if [ "$verbosity" == "-v" ]
+        then
+            verbosity=""
+        else
+            verbosity="-v"
+        fi
+        shift
+        continue
+    fi
+
+    # If we get here we are running a normal test.
     echo " "
     echo "Running test $1"
     filename="$1"
     # Run the python code (python 3 required) to test the API query
-    python3 $SCRIPT_DIR/$PYTHON_PROG $adc_url $entry_point $filename
+    python3 $SCRIPT_DIR/$PYTHON_PROG $verbosity $adc_url $entry_point $filename
     error_code=$?
     if [ $error_code -ne 0 ]
     then
