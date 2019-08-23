@@ -35,8 +35,7 @@ def processQuery(query_url, header_dict, query_dict={}, verbose=False, force=Fal
 
     except urllib.error.HTTPError as e:
         print('ERROR: Server could not fullfil the request to ' + query_url)
-        print('ERROR: Error code =', e.code)
-        print(e.read())
+        print('ERROR: Error code = ' + str(e.code) + ', Message = ', e.read())
         return json.loads('[]')
     except urllib.error.URLError as e:
         print('ERROR: Failed to reach the server')
@@ -154,7 +153,7 @@ def testAPI(base_url, entry_point, query_files, verbose, force):
         #data.update({value:total})
         #graph_total = graph_total + total
         #print("Total for " + query_key + "/" + value + " = " + str(total))
-        print('INFO: Query file ' + query_file + ' to ' + query_url + ' OK')
+        print('PASS: Query file ' + query_file + ' to ' + query_url + ' OK')
 
     return 0
 
