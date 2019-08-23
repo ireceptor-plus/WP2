@@ -30,6 +30,8 @@ shift
 let "error_count=0"
 let "total_count=0"
 while [ "$1" != "" ]; do
+    echo " "
+    echo "Running test $1"
     filename="$1"
     # Run the python code (python 3 required) to test the API query
     python3 $SCRIPT_DIR/$PYTHON_PROG $adc_url $entry_point $filename
@@ -43,6 +45,7 @@ while [ "$1" != "" ]; do
     let "total_count=total_count+1"
 done
 
+echo " "
 if [ $error_count -gt 0 ]
 then
     echo "SUMMARY: $error_count of $total_count tests failed"
