@@ -18,13 +18,13 @@ The python code can be run as follows:
 $ python test_airr_api.py https://airr-api.ireceptor.org/airr/v1 repertoire repertoire/pass-all.json
 PASS: Query file repertoire/pass-all.json to https://airr-api.ireceptor.org/airr/v1/repertoire OK
 ```
-Required command line options consit of:
+Required command line options consist of:
 - The base URL to test against
 - The entry point to test
 - The JSON query to execute
 
-Optional command line arguements are:
-- -v: Run in verbose mode, provided more diagnostics as to what occured.
+Optional command line arguments are:
+- -v: Run in verbose mode, provided more diagnostics as to what occurred.
 - -f: Force queries to run in error conditions. For example, the coded tests for bad JSON on query file load, but in some instances you want to test that the service running the API can detect and handle the bad JSON code. -f will force the bad JSON to be sent to the service rather than detecting it as bad JSON and exiting.
 - -h Print a help message.
 
@@ -45,10 +45,10 @@ optional arguments:
 
 ## Running the test suite
 
-The bash script ADCTest usese the python code above to run a set of tests against a given API. The
-command line arguements to the code are similar, with the two following exceptions:
+The bash script ADCTest uses the python code above to run a set of tests against a given API. The
+command line arguments to the code are similar, with the two following exceptions:
 - A list of files can be given as a suite of tests to run
-- The -v and -f command line arguements can be interspersed between the file to turn on and off the verbosity and force flags.
+- The -v and -f command line arguments can be interspersed between the file to turn on and off the verbosity and force flags.
 
 ```
 $ ./ADCtest.sh https://vdjserver.org/airr/v1 repertoire repertoire/pass*.json
