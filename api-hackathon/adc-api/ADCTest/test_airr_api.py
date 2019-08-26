@@ -4,9 +4,6 @@ import json
 import os, ssl
 import sys
 import time
-#import numpy as np
-#import matplotlib.pyplot as plt
-#from collections import OrderedDict
 
 def processQuery(query_url, header_dict, query_dict={}, verbose=False, force=False):
     # Build the required JSON data for the post request. The user
