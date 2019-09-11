@@ -1,0 +1,30 @@
+#
+# Schema definitions for AIRR standards objects
+#
+Info:
+    title: iReceptor Plus Clone Schema
+    description: Schema definitions for iReceptor Plus clone objects
+    version: 1.0
+    contact:
+        name: iReceptor Plus
+        url: https://github.com/ireceptor-plus
+    license:
+        name: Creative Commons Attribution 4.0 International
+        url: https://creativecommons.org/licenses/by/4.0/
+
+SubjectClone:
+clone _id int Required Unique Clone identifier 
+subject_id int Unique subject identifier 
+insertions string Clone insertion mutations 
+v_gene string V gene name assigned to the clonesequence
+j_gene string J gene name assigned to the clone sequence 
+deletions string Clone deletion mutations
+cdr3_nt string Clone cdr3 nucleotide sequence 
+cdr3_num_nts int Clone cdr3 length 
+cdr3_aa string Clone cdr3 amino acid translation of the cdr3
+instances Int Clone overall instance count 
+copies int Clone overall total count
+germline string
+tree json JSON tree representation
+
+
