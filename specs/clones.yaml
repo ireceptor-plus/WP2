@@ -13,16 +13,21 @@ Info:
         url: https://creativecommons.org/licenses/by/4.0/
 
 SubjectClone:
+  discriminator: AIRR
   type: object
   required:
     - clone_id
   properties:
     clone_id:
-      type: integer
-      description: Unique Clone identifier 
+      type: string
+      description: Unique clone identifier 
+      x-airr:
+        miairr: true 
     subject_id:
-      type: integer 
+      type: string 
       description: Unique subject identifier 
+      x-airr:
+        miairr: true 
     insertions:
       type:  string 
       description: Clone insertion mutations 
@@ -57,25 +62,32 @@ SubjectClone:
       description: JSON tree representation
 
 RepertoireClone:
+  discriminator: AIRR
   type: object
   required:
     - clone_id
     - sample_id
   properties:
     clone_id:
-      type: integer
-      description: Unique Clone identifier 
+      type: string
+      description: Unique Clone identifier
+      x-airr:
+        miairr: true 
     sample_id:
-      type: integer
+      type: string
       description: ID of sample, or null if the stats represent the overall cone rather than a single sample
-    functional:
+      x-airr:
+        miairr: true 
+    productive:
       type: boolean
-      description: True if clone is functional, False if not
-    Uniques :
+      description: True if clone is productive, False if not
+      x-airr:
+        miairr: true 
+    uniques :
       type: integer
       description: Clone overall unique count
     instances:
-      type: integereger
+      type: integer
       description: Clone overall instance count 
     avg_v_identity:
       type: string
