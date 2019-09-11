@@ -17,45 +17,65 @@ SubjectClone:
   type: object
   required:
     - clone_id
+    - repertoire_list
   properties:
     clone_id:
       type: string
       description: Unique clone identifier 
       x-airr:
         miairr: true 
-    subject_id:
-      type: string 
-      description: Unique subject identifier 
-      x-airr:
-        miairr: true 
+        adc-api-optional: false
+    repertoire_list:
+      type: array
+      description: List of processed repertoires that are aggregated.
+      items:
+        type: object
+        properties:
+          repertoire_id:
+            type: string
+            description: Identifier to the associated repertoire in study metadata.
+            x-airr:
+              miairr: false
+              adc-api-optional: false
+          data_processing_id:
+            type: string
+            description: >
+                Identifier to the data processing object in the repertoire metadata
+                for this rearrangement. If this field is empty than the primary data processing object is assumed.
+            x-airr:
+              miairr: false
+              adc-api-optional: false
     insertions:
       type:  string 
       description: Clone insertion mutations 
-    v_gene:
+    v_call:
       type:  string 
       description: V gene name assigned to the clonesequence
-    j_gene:
+    j_call:
       type:  string 
       description: J gene name assigned to the clone sequence 
     deletions:
       type:  string 
       description: Clone deletion mutations
-    cdr3_nt:
+    junction:
       type:  string 
       description: Clone cdr3 nucleotide sequence 
-    cdr3_num_nts:
+    junction_length:
       type:  int 
       description: Clone cdr3 length 
-    cdr3_aa:
+    junction_aa:
       type:  string 
       description: Clone cdr3 amino acid translation of the cdr3
+    junction_aa_length:
+      type:  int 
+      description: Clone cdr3 amino acid translation length 
     instances:
       type:  Int 
       description: Clone overall instance count 
     copies:
       type:  int 
       description: Clone overall total count
-    germline:
+    germline_database:
       type:  string
     tree:
       type:  json 
@@ -66,18 +86,28 @@ RepertoireClone:
   type: object
   required:
     - clone_id
-    - sample_id
+    - repertoire_id
+    - data_processing_id
   properties:
     clone_id:
       type: string
       description: Unique Clone identifier
       x-airr:
         miairr: true 
-    sample_id:
+    repertoire_id:
       type: string
-      description: ID of sample, or null if the stats represent the overall cone rather than a single sample
+      description: Identifier to the associated repertoire in study metadata.
       x-airr:
-        miairr: true 
+        miairr: false
+        adc-api-optional: false
+    data_processing_id:
+      type: string
+      description: >
+          Identifier to the data processing object in the repertoire metadata
+          for this clone. If this field is empty than the primary data processing object is assumed.
+      x-airr:
+        miairr: false
+        adc-api-optional: false
     productive:
       type: boolean
       description: True if clone is productive, False if not
