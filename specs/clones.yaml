@@ -1,5 +1,5 @@
 #
-# Schema definitions for AIRR standards objects
+# Schema definitions for iReceptor Plus clone objects
 #
 Info:
     title: iReceptor Plus Clone Schema
@@ -13,18 +13,47 @@ Info:
         url: https://creativecommons.org/licenses/by/4.0/
 
 SubjectClone:
-clone _id int Required Unique Clone identifier 
-subject_id int Unique subject identifier 
-insertions string Clone insertion mutations 
-v_gene string V gene name assigned to the clonesequence
-j_gene string J gene name assigned to the clone sequence 
-deletions string Clone deletion mutations
-cdr3_nt string Clone cdr3 nucleotide sequence 
-cdr3_num_nts int Clone cdr3 length 
-cdr3_aa string Clone cdr3 amino acid translation of the cdr3
-instances Int Clone overall instance count 
-copies int Clone overall total count
-germline string
-tree json JSON tree representation
+  type: object
+  required:
+    - clone_id
+  properties:
+    clone_id:
+      type: integer
+      description: Unique Clone identifier 
+    subject_id:
+      type: integer 
+      description: Unique subject identifier 
+    insertions:
+      type:  string 
+      description: Clone insertion mutations 
+    v_gene:
+      type:  string 
+      description: V gene name assigned to the clonesequence
+    j_gene:
+      type:  string 
+      description: J gene name assigned to the clone sequence 
+    deletions:
+      type:  string 
+      description: Clone deletion mutations
+    cdr3_nt:
+      type:  string 
+      description: Clone cdr3 nucleotide sequence 
+    cdr3_num_nts:
+      type:  int 
+      description: Clone cdr3 length 
+    cdr3_aa:
+      type:  string 
+      description: Clone cdr3 amino acid translation of the cdr3
+    instances:
+      type:  Int 
+      description: Clone overall instance count 
+    copies:
+      type:  int 
+      description: Clone overall total count
+    germline:
+      type:  string
+    tree:
+      type:  json 
+      description: JSON tree representation
 
 
