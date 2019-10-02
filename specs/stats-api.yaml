@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  title: iReceptorPlus Statistics API
+  version: 1.0.0
+  contact:
+    name: iReceptor Plus
+    url: 'https://www.ireceptorplus.org'
+    email: info@ireceptorplus.org
+  description: >
+    Statistics API for iReceptor Plus repositories.
+basePath: /irplus/v1/stats
+
+schemes:
+  - https
+  - http
+produces:
+  - application/json
+consumes:
+  - application/x-www-form-urlencoded
+  - application/json
+tags:
+  - name: info
+    description: Service information
+  - name: clones
+    description: Analysis API for clones
+  - name: rearrangements
+    description: Analysis API for rearrangements
+
+paths:
+  /:
+    x-swagger-router-controller: status
+    get:
+      description: |
+        Service heartbeat.
+      consumes:
+        - application/octet-stream
+      operationId: getStatus
+      responses:
+        '200':
+          description: |
+            Success.
+          schema:
+            type: object
+            properties:
+              result:
+                type: string
+
+  /info:
+    x-swagger-router-controller: status
+    get:
+      description: |
+        Service information.
+      tags:
+        - info
+      consumes:
+        - application/octet-stream
+      operationId: getInfo
+      responses:
+        '200':
+          description: |
+            Success.
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              version:
+                type: string
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+  /rearrangement/junction_length:
+    x-swagger-router-controller: rearrangement
+    post:
+      description: >
+        Perform a junction length distribution analysis for the rearrangements that belong to the specified repertoire (and/or sample_processing and data processing entity).
+      tags:
+        - rearrangements
+      parameters:
+        - in: body
+          name: data
+          schema:
+            type: object
+            properties:
+              repertoire_id:
+                type: string
+              sample_processing_id:
+                type: string
+              data_processing_id:
+                type: string
+      operationId: createJunctionLengthDistribution
+      responses:
+        '200':
+          description: >
+            A successful call returns a JSON description of the requested junction length distribution 
+
+  /rearrangement/gene_usage:
+    x-swagger-router-controller: rearrangement
+    post:
+      description: >
+        Perform a gene usage analysis for the rearrangementes that belong to the specified repertoire (and/or sample_processing and data_processing entity).
+      tags:
+        - rearrangements
+      parameters:
+        - in: body
+          name: data
+          schema:
+            type: object
+            properties:
+              repertoire_id:
+                type: string
+              sample_processing_id:
+                type: string
+              data_processing_id:
+                type: string
+      operationId: createGeneUsage
+      responses:
+        '200':
+          description: >
+            A successful call returns a JSON description of the requested gene usage distribution 
+
+  /clone/junction_length:
+    x-swagger-router-controller: clone
+    post:
+      description: >
+        Perform a junction length distribution analysis for the rearrangements that belong to the specified repertoire (and/or sample_processing and data processing entity).
+      tags:
+        - clones
+      parameters:
+        - in: body
+          name: data
+          schema:
+            type: object
+            properties:
+              repertoire_id:
+                type: string
+              sample_processing_id:
+                type: string
+              data_processing_id:
+                type: string
+              clone_processing_id:
+                type: string
+      operationId: createJunctionLengthDistribution
+      responses:
+        '200':
+          description: >
+            A successful call returns a JSON description of the requested junction length distribution 
+
+  /clone/gene_usage:
+    x-swagger-router-controller: clone
+    post:
+      description: >
+        Perform a gene usage analysis for the clones that belong to the specified repertoire (and/or sample_processing and data_processing entity).
+      tags:
+        - clones
+      parameters:
+        - in: body
+          name: data
+          schema:
+            type: object
+            properties:
+              repertoire_id:
+                type: string
+              sample_processing_id:
+                type: string
+              data_processing_id:
+                type: string
+              clone_processing_id:
+                type: string
+      operationId: createGeneUsage
+      responses:
+        '200':
+          description: >
+            A successful call returns a JSON description of the requested gene usage distribution 
