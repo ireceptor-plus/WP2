@@ -45,3 +45,4 @@ Finally, to get a representative sample of the actual rearrangement data, one ca
 curl -s --data @sequences-step3-vcall.json https://vdjserver.org/airr/v1/rearrangement | python -m json.tool
 ```
 
+Note: The current iReceptor test API is on https://airr-api.ireceptor.org/airr/v1/
