@@ -22,9 +22,9 @@ tags:
   - name: info
     description: Service information
   - name: clones
-    description: Analysis API for clones
+    description: Statistics API for clones
   - name: rearrangements
-    description: Analysis API for rearrangements
+    description: Statistics API for rearrangements
 
 paths:
   /:
