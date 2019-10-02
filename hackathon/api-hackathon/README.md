@@ -21,7 +21,7 @@ python graph_api.py junction_aa_length 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,2
 
 python graph_sample_api.py Patient3-T3 junction_aa_length 05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29 https://ipa4.ireceptor.org
 
-python graph_sample_api.py Patient3-T3 v_call TRBV1,TRBV2,TRBV3,TRBV4,TRBV5,TRBV6,TRBV7 https://ipa4.ireceptor.org
+python graph_sample_api.py p2255_d180_part1 v_call TRBV1,TRBV10,TRBV11,TRBV12,TRBV13,TRBV14,TRBV15,TRBV16,TRBV17,TRBV18,TRBV19,TRBV2,TRBV20,TRBV21,TRBV23,TRBV24,TRBV25,TRBV26,TRBV27,TRBV28,TRBV29,TRBV3,TRBV30,TRBV4,TRBV5,TRBV6,TRBV7,TRBV9 https://ipa3.ireceptor.org
 
 python graph_sample_api.py Patient3-T1 v_call 'TRBV7-1,TRBV7-2,TRBV7-3,TRBV7-4,TRBV7-5,TRBV7-6,TRBV7-7,TRBV7-8,TRBV7-9,TRBV7-10,TRBV7-11,TRBV12-4*02' https://ipa4.ireceptor.org
 
