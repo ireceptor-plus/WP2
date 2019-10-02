@@ -26,6 +26,69 @@ tags:
   - name: rearrangements
     description: Statistics API for rearrangements
 
+definitions:
+  # Info object
+  info_object:
+    type: object
+    description: Provides information about the API response
+    properties:
+      title:
+        type: string
+      version:
+        type: string
+      description:
+        type: string
+      contact: 
+        type: object
+        properties:
+          name:
+            type: string
+          url:
+            type: string
+          email:
+            type: string
+
+  junction_length_response:
+    type: object
+    properties:
+      Info:
+        $ref: '#/definitions/info_object'
+      junction_length:
+        type: array
+        items: 
+          type: object
+          properties:
+            value:
+              type: string
+            count:
+              type: integer
+          
+  # The response object /rearrangement endpoint
+  gene_usage_response:
+    type: object
+    properties:
+      Info:
+        $ref: '#/definitions/info_object'
+      gene_usage:
+        type: array
+        items: 
+          type: object
+          properties:
+            value:
+              type: string
+            count:
+              type: integer
+  
+  # error response
+  error_response:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Detail about the error
+
+
+
 paths:
   /:
     x-swagger-router-controller: status
@@ -93,7 +156,17 @@ paths:
       responses:
         '200':
           description: >
-            A successful call returns a JSON description of the requested junction length distribution 
+            A successful call returns a JSON description of the requested junction length distribution
+          schema:
+            $ref: '#/definitions/junction_length_response'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/error_response'
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/error_response'
 
   /rearrangement/gene_usage:
     x-swagger-router-controller: rearrangement
@@ -119,7 +192,17 @@ paths:
         '200':
           description: >
             A successful call returns a JSON description of the requested gene usage distribution 
-
+          schema:
+            $ref: '#/definitions/gene_usage_response'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/error_response'
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/error_response'
+            
   /clone/junction_length:
     x-swagger-router-controller: clone
     post:
@@ -146,6 +229,16 @@ paths:
         '200':
           description: >
             A successful call returns a JSON description of the requested junction length distribution 
+          schema:
+            $ref: '#/definitions/junction_length_response'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/error_response'
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/error_response'
 
   /clone/gene_usage:
     x-swagger-router-controller: clone
@@ -173,3 +266,13 @@ paths:
         '200':
           description: >
             A successful call returns a JSON description of the requested gene usage distribution 
+          schema:
+            $ref: '#/definitions/gene_usage_response'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/error_response'
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/error_response'
