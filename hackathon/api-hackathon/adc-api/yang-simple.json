@@ -1,0 +1,59 @@
+{
+  "filters": {
+    "op":"and",
+    "content": [
+      {
+        "op":"contains", 
+        "content": {
+          "field":"sequencing_run.sequencing_platform",
+          "value":"llumina"
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"subject.organism.value",
+          "value":"Home sapiens"
+        }
+      }
+    ]
+  },
+  "facets":"repertoire_id",
+  "COMMENT":[
+      {
+        "op":"=",
+        "content": {
+          "field":"sample.pcr_target.pcr_target_locus",
+          "value":"IGH"
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"keywords_study",
+          "value":"contains_ig"
+        }
+      },
+      {
+        "op":"is not",
+        "content": {
+          "field":"sequencing_run.sequencing_files.paired_filename",
+          "value":"missing"
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"nucleic_acid_processing.template_class",
+          "value":"DNA"
+        }
+      },
+      {
+        "op":">=",
+        "content": {
+          "field":"sequencing_run.read_length",
+          "value":250
+        }
+      }
+  ]
+}
