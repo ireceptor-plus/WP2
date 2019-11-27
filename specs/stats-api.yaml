@@ -69,17 +69,47 @@ definitions:
     properties:
       Info:
         $ref: '#/definitions/info_object'
-      gene_usage:
+      total:
+        type: integer
+        description: Total number of element found
+      family:
         type: array
+        description: Array of counts for the gene family
         items: 
           type: object
           properties:
             value:
               type: string
+              description: An gene family for which a count was found
             count:
               type: integer
-  
-  # error response
+              description: The number of times the gene family was found
+      gene:
+        type: array
+        description: Array of counts for the gene
+        items: 
+          type: object
+          properties:
+            value:
+              type: string
+              description: An gene for which a count was found
+            count:
+              type: integer
+              description: The number of times the gene was found
+       allele:
+        type: array
+        description: Array of counts for the allele
+        items: 
+          type: object
+          properties:
+            value:
+              type: string
+              description: An allele for which a count was found
+            count:
+              type: integer 
+              description: The number of times the allele was found
+
+# error response
   error_response:
     type: object
     properties:
