@@ -74,31 +74,46 @@ definitions:
         description: Total number of element found
       family:
         type: array
-        description: Array of key/value pairs, one per gene family found.
+        description: Array of gene families and their counts.
         items:
           type: object
           properties:
-            family_name: 
+            name:
+              type: string
+              description: The name of the gene family
+              example: IGHV1
+            count: 
               type: integer
-              description: A key value pair, key is the gene family name, value is the count for how many times that gene name was found.
+              description: The number of times that the gene family was found.
+              example: 40
       gene:
         type: array
-        description: Array of key/value pairs, one per gene found.
+        description: Array of genes and their counts.
         items: 
           type: object
           properties:
-            gene_name: 
+            name:
+              type: string
+              description: The name of the gene
+              example: IGHV1-1
+            count:
               type: integer
-              description: A key value pair, key is the gene name, value is the count for how many times that gene was found.
+              description: The number of times that the gene was found.
+              example: 40
       allele:
         type: array
-        description: Array of key/value pairs, one per allele found.
+        description: Array of alleles and their counts.
         items: 
           type: object
           properties:
-            allele_name: 
+            name:
+              type: string
+              description: The name of the allele.
+              example: IGHV1-1*01
+            count:
               type: integer
-              description: A key value pair, key is the allele name, value is the count for how many times that allele was found.
+              description: The number of times that the allele was found.
+              example: 40
 
 # error response
   error_response:
