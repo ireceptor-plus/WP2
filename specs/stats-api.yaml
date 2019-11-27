@@ -96,7 +96,7 @@ definitions:
             count:
               type: integer
               description: The number of times the gene was found
-       allele:
+      allele:
         type: array
         description: Array of counts for the allele
         items: 
