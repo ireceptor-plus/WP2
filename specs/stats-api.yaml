@@ -224,10 +224,10 @@ paths:
               sample_processing_id:
                 type: string
                 description: The sample processing ID on which to perform the analysis
-             data_processing_id:
+              data_processing_id:
                 type: string
                 description: The data processing ID on which to perform the analysis
-             gene_type:
+              gene_type:
                 type: string
                 description: Type of gene on which to perform the gene usage analysis (one of V, D, or J)
                 example: V
