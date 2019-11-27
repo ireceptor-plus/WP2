@@ -220,10 +220,21 @@ paths:
             properties:
               repertoire_id:
                 type: string
+                description: The reperotire ID on which to perform the analysis
               sample_processing_id:
                 type: string
-              data_processing_id:
+                description: The sample processing ID on which to perform the analysis
+             data_processing_id:
                 type: string
+                description: The data processing ID on which to perform the analysis
+             gene_type:
+                type: string
+                description: Type of gene on which to perform the gene usage analysis (one of V, D, or J)
+                example: V
+              gene_stat:
+                type: string
+                description: The types of gene usage stats requested (one of family, gene, or allele)
+                example: gene
       operationId: rearrangementGeneUsage
       responses:
         '200':
