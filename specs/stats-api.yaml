@@ -72,7 +72,7 @@ definitions:
       total:
         type: integer
         description: Total number of element found
-        exmaple: 40
+        example: 40
       family:
         type: array
         description: Array of gene families and their counts.
