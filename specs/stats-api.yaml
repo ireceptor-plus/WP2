@@ -76,23 +76,29 @@ definitions:
         type: array
         description: Array of key/value pairs, one per gene family found.
         items:
-          family_name: 
-            type: integer
-            description: A key value pair: key is the gene family name, value is the count for how many times that gene name was found.
+          type: object
+          properties:
+            family_name: 
+              type: integer
+              description: A key value pair, key is the gene family name, value is the count for how many times that gene name was found.
       gene:
         type: array
         description: Array of key/value pairs, one per gene found.
         items: 
-          gene_name: 
-            type: integer
-            description: A key value pair: key is the gene name, value is the count for how many times that gene was found.
+          type: object
+          properties:
+            gene_name: 
+              type: integer
+              description: A key value pair, key is the gene name, value is the count for how many times that gene was found.
       allele:
         type: array
         description: Array of key/value pairs, one per allele found.
         items: 
-          allele_name: 
-            type: integer
-            description: A key value pair: key is the allele name, value is the count for how many times that allele was found.
+          type: object
+          properties:
+            allele_name: 
+              type: integer
+              description: A key value pair, key is the allele name, value is the count for how many times that allele was found.
 
 # error response
   error_response:
