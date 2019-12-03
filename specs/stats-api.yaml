@@ -62,6 +62,7 @@ definitions:
               type: string
             count:
               type: integer
+
           
   # The response object /rearrangement endpoint
   gene_usage_response:
@@ -69,52 +70,64 @@ definitions:
     properties:
       Info:
         $ref: '#/definitions/info_object'
-      total:
-        type: integer
-        description: Total number of element found
-        example: 40
-      family:
+      Stats:
         type: array
-        description: Array of gene families and their counts.
+        description: Array of gene stats objects
         items:
           type: object
           properties:
-            name:
+            repertoire_id:
               type: string
-              description: The name of the gene family
-              example: IGHV1
-            count: 
-              type: integer
-              description: The number of times that the gene family was found.
-              example: 40
-      gene:
-        type: array
-        description: Array of genes and their counts.
-        items: 
-          type: object
-          properties:
-            name:
+            data_processing_id:
               type: string
-              description: The name of the gene
-              example: IGHV1-1
-            count:
-              type: integer
-              description: The number of times that the gene was found.
-              example: 40
-      allele:
-        type: array
-        description: Array of alleles and their counts.
-        items: 
-          type: object
-          properties:
-            name:
+            sample_processing_id:
               type: string
-              description: The name of the allele.
-              example: IGHV1-1*01
-            count:
+            total:
               type: integer
-              description: The number of times that the allele was found.
+              description: Total number of elements found
               example: 40
+            family:
+              type: array
+              description: Array of gene families and their counts.
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the gene family
+                    example: IGHV1
+                  count: 
+                    type: integer
+                    description: The number of times that the gene family was found.
+                    example: 40
+            gene:
+              type: array
+              description: Array of genes and their counts.
+              items: 
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the gene
+                    example: IGHV1-1
+                  count:
+                    type: integer
+                    description: The number of times that the gene was found.
+                    example: 40
+            allele:
+              type: array
+              description: Array of alleles and their counts.
+              items: 
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the allele.
+                    example: IGHV1-1*01
+                  count:
+                    type: integer
+                    description: The number of times that the allele was found.
+                    example: 40
 
 # error response
   error_response:
