@@ -219,24 +219,32 @@ paths:
           schema:
             type: object
             properties:
-              gene_type:
-                type: string
-                description: Type of gene on which to perform the gene usage analysis (one of V, D, or J)
-                example: V
-              gene_stat:
+              fields:
                 type: array
                 items:
                   type: string
                   enum:
-                    - family
-                    - gene
-                    - allele
-                description: The types of gene usage stats requested (one of family, gene, or allele)
+                    - v_subgroup
+                    - v_gene
+                    - v_call
+                    - d_subgroup
+                    - d_gene
+                    - d_call
+                    - j_subgroup
+                    - j_gene
+                    - j_call
+                    - c_subgroup
+                    - c_gene
+                    - c_call
+                description: The types of gene usage stats requested (one of V,D, or J subgroup, gene, or allele)
                 example:
-                  - gene
-                  - family
-              repertoire_list:
+                  - v_subgroup
+                  - v_gene
+                  - d_call
+                  - c_call
+              repertoires:
                 type: array
+                description: Array of repertoires to perform the statistics on.
                 items:
                   type: object
                   properties:
