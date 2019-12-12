@@ -90,50 +90,32 @@ definitions:
                 to which data processing to use.
             total:
               type: integer
-              description: Total number of elements found
+              description: Total number of elements found the Repertoire.
               example: 40
-            family:
+            fields:
               type: array
-              description: Array of gene families and their counts.
+              description: Array of fields stats were performed on in the repertoire.
               items:
                 type: object
                 properties:
-                  name:
+                  field:
                     type: string
-                    description: The name of the gene family
-                    example: IGHV1
-                  count: 
-                    type: integer
-                    description: The number of times that the gene family was found.
-                    example: 40
-            gene:
-              type: array
-              description: Array of genes and their counts.
-              items: 
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: The name of the gene
-                    example: IGHV1-1
-                  count:
-                    type: integer
-                    description: The number of times that the gene was found.
-                    example: 40
-            allele:
-              type: array
-              description: Array of alleles and their counts.
-              items: 
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: The name of the allele.
-                    example: IGHV1-1*01
-                  count:
-                    type: integer
-                    description: The number of times that the allele was found.
-                    example: 40
+                    description: The field that the statistics refer to. This should be an AIRR compliant field that exists in the repository.
+                    example: v_call
+                  data:
+                    type: array
+                    description: Array of responses for each of the fields requested.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the gene family
+                          example: IGHV1
+                        count: 
+                          type: integer
+                          description: The number of times that the gene family was found.
+                          example: 40
 
 # error response
   error_response:
