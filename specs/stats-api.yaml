@@ -221,9 +221,11 @@ paths:
                     repertoire_id:
                       type: string
                       description: The reperotire ID on which to perform the analysis
+                      example: REPID_4598
                     sample_processing_id:
                       type: string
                       description: The sample processing ID within the repertoire on which to perform the analysis
+                      example: SPID_1
                     data_processing_id:
                       type: string
                       description: >
@@ -232,6 +234,7 @@ paths:
                         the repertoire then the primary_annotation is used if one exists. If there is more than
                         one data processing entity and there is no primary annotation, then this is an error, as
                         it is ambigous as to which data processing to use.
+                      example: DPID_1
       operationId: rearrangementJunctionLengthDistribution
       responses:
         '200':
