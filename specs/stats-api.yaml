@@ -184,12 +184,21 @@ paths:
           schema:
             type: object
             properties:
-              repertoire_id:
-                type: string
-              sample_processing_id:
-                type: string
-              data_processing_id:
-                type: string
+              repertoires:
+                type: array
+                description: Array of repertoires to perform the statistics on.
+                items:
+                  type: object
+                  properties:
+                    repertoire_id:
+                      type: string
+                      description: The reperotire ID on which to perform the analysis
+                    sample_processing_id:
+                      type: string
+                      description: The sample processing ID within the repertoire on which to perform the analysis
+                    data_processing_id:
+                      type: string
+                      description: The data processing ID within the repertoire on which to perform the analysis
       operationId: rearrangementJunctionLengthDistribution
       responses:
         '200':
