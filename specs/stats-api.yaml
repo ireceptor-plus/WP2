@@ -55,28 +55,39 @@ definitions:
         $ref: '#/definitions/info_object'
       Stats:
         type: array
-        description: Array of junction length stats objects
+        description: >
+            Array of junction length stats objects, entry for each repertoire_id, data_processing_id, and
+            sample_processing_id requested
         items:
           type: object
           properties:
             repertoire_id:
               type: string
               description: The repertoire_id for this set of stats.
+              example: REPID_4598
             sample_processing_id:
               type: string
               description: The sample_processing_id for this set of stats.
+              example: SPID_1
             data_processing_id:
               type: string
               description: The data_processing_id for this set of stats.
+              example: DPID_1
             junction_lengths:
               type: array
+              example: [{"junction_length":15, "count":14890},{"junction_length":16, "count":50693}]
+              description: >
+                  Array containing the junction length stats. Each array element contains a junction_length
+                  and the count for that junction_length in the given repertoire.
               items: 
                 type: object
                 properties:
-                  value:
+                  junction_length:
                     type: integer
+                    description: The junction_length
                   count:
                     type: integer
+                    description: The count for this junction_length
 
           
   # The response object /rearrangement endpoint
@@ -94,6 +105,7 @@ definitions:
             repertoire_id:
               type: string
               description: The repertoire_id on which to perform the stats.
+              example: REPID_4598
             data_processing_id:
               type: string
               description: >
@@ -103,10 +115,11 @@ definitions:
                 primary_annotation is used if one exists. If there is more than one data processing
                 entity and there is no primary annotation, then this is an error, as it is ambigous as
                 to which data processing to use.
+              example: DPID_1
             total:
               type: integer
               description: Total number of elements found the Repertoire.
-              example: 40
+              example: 30
             fields:
               type: array
               description: Array of fields stats were performed on in the repertoire.
@@ -115,22 +128,23 @@ definitions:
                 properties:
                   field:
                     type: string
-                    description: The field that the statistics refer to. This should be an AIRR compliant field that exists in the repository.
-                    example: v_call
+                    description: >
+                        The field that the statistics refer to. This should be an AIRR compliant field
+                        that exists in the repository.
+                    example: v_gene
                   data:
                     type: array
                     description: Array of responses for each of the fields requested.
+                    example: [{"name":"IGHV1", "count":5}, {"name":"IGHV2", "count":12}, {"name":"IGHV3", "count":13}]
                     items:
                       type: object
                       properties:
                         name:
                           type: string
-                          description: The name of the gene family
-                          example: IGHV1
+                          description: The name of the gene component
                         count: 
                           type: integer
-                          description: The number of times that the gene family was found.
-                          example: 40
+                          description: The number of times that the gene component was found.
 
 # error response
   error_response:
@@ -263,10 +277,8 @@ paths:
                     - c_call
                 description: The types of gene usage stats requested (one of V,D, or J subgroup, gene, or allele)
                 example:
-                  - v_subgroup
                   - v_gene
                   - d_call
-                  - c_call
               repertoires:
                 type: array
                 description: Array of repertoires to perform the statistics on.
@@ -276,9 +288,11 @@ paths:
                     repertoire_id:
                       type: string
                       description: The reperotire ID on which to perform the analysis
+                      example: REPID_4598
                     data_processing_id:
                       type: string
                       description: The data processing ID on which to perform the analysis
+                      example: DPID_1
       operationId: rearrangementGeneUsage
       responses:
         '200':
