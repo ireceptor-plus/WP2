@@ -53,15 +53,30 @@ definitions:
     properties:
       Info:
         $ref: '#/definitions/info_object'
-      junction_length:
+      Stats:
         type: array
-        items: 
+        description: Array of junction length stats objects
+        items:
           type: object
           properties:
-            value:
+            repertoire_id:
               type: string
-            count:
-              type: integer
+              description: The repertoire_id for this set of stats.
+            sample_processing_id:
+              type: string
+              description: The sample_processing_id for this set of stats.
+            data_processing_id:
+              type: string
+              description: The data_processing_id for this set of stats.
+            junction_lengths:
+              type: array
+              items: 
+                type: object
+                properties:
+                  value:
+                    type: integer
+                  count:
+                    type: integer
 
           
   # The response object /rearrangement endpoint
@@ -72,7 +87,7 @@ definitions:
         $ref: '#/definitions/info_object'
       Stats:
         type: array
-        description: Array of gene stats objects
+        description: Array of gene stats objects, one per repertoire
         items:
           type: object
           properties:
@@ -175,7 +190,8 @@ paths:
     x-swagger-router-controller: rearrangement
     post:
       description: >
-        Perform a junction length distribution analysis for the rearrangements that belong to the specified repertoire (and/or sample_processing and data processing entity).
+        Perform a junction length distribution analysis for the rearrangements that
+        belong to the specified repertoire_id (and/or sample_processing_id and data_processing_id).
       tags:
         - rearrangements
       parameters:
