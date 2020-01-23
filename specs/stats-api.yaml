@@ -62,6 +62,7 @@ definitions:
               type: string
             count:
               type: integer
+
           
   # The response object /rearrangement endpoint
   gene_usage_response:
@@ -69,52 +70,52 @@ definitions:
     properties:
       Info:
         $ref: '#/definitions/info_object'
-      total:
-        type: integer
-        description: Total number of element found
-        exmaple: 40
-      family:
+      Stats:
         type: array
-        description: Array of gene families and their counts.
+        description: Array of gene stats objects
         items:
           type: object
           properties:
-            name:
+            repertoire_id:
               type: string
-              description: The name of the gene family
-              example: IGHV1
-            count: 
-              type: integer
-              description: The number of times that the gene family was found.
-              example: 40
-      gene:
-        type: array
-        description: Array of genes and their counts.
-        items: 
-          type: object
-          properties:
-            name:
+              description: The repertoire_id on which to perform the stats.
+            data_processing_id:
               type: string
-              description: The name of the gene
-              example: IGHV1-1
-            count:
+              description: >
+                The data_processing_id within the repertoire on which to perform the stats.
+                If this is not provided and
+                there is more than one data processing entity attached to the repertoire then the
+                primary_annotation is used if one exists. If there is more than one data processing
+                entity and there is no primary annotation, then this is an error, as it is ambigous as
+                to which data processing to use.
+            total:
               type: integer
-              description: The number of times that the gene was found.
+              description: Total number of elements found the Repertoire.
               example: 40
-      allele:
-        type: array
-        description: Array of alleles and their counts.
-        items: 
-          type: object
-          properties:
-            name:
-              type: string
-              description: The name of the allele.
-              example: IGHV1-1*01
-            count:
-              type: integer
-              description: The number of times that the allele was found.
-              example: 40
+            fields:
+              type: array
+              description: Array of fields stats were performed on in the repertoire.
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: The field that the statistics refer to. This should be an AIRR compliant field that exists in the repository.
+                    example: v_call
+                  data:
+                    type: array
+                    description: Array of responses for each of the fields requested.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the gene family
+                          example: IGHV1
+                        count: 
+                          type: integer
+                          description: The number of times that the gene family was found.
+                          example: 40
 
 # error response
   error_response:
@@ -218,12 +219,41 @@ paths:
           schema:
             type: object
             properties:
-              repertoire_id:
-                type: string
-              sample_processing_id:
-                type: string
-              data_processing_id:
-                type: string
+              fields:
+                type: array
+                items:
+                  type: string
+                  enum:
+                    - v_subgroup
+                    - v_gene
+                    - v_call
+                    - d_subgroup
+                    - d_gene
+                    - d_call
+                    - j_subgroup
+                    - j_gene
+                    - j_call
+                    - c_subgroup
+                    - c_gene
+                    - c_call
+                description: The types of gene usage stats requested (one of V,D, or J subgroup, gene, or allele)
+                example:
+                  - v_subgroup
+                  - v_gene
+                  - d_call
+                  - c_call
+              repertoires:
+                type: array
+                description: Array of repertoires to perform the statistics on.
+                items:
+                  type: object
+                  properties:
+                    repertoire_id:
+                      type: string
+                      description: The reperotire ID on which to perform the analysis
+                    data_processing_id:
+                      type: string
+                      description: The data processing ID on which to perform the analysis
       operationId: rearrangementGeneUsage
       responses:
         '200':
