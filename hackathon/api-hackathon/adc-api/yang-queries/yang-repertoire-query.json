@@ -18,11 +18,11 @@
       },
       {
         "op":"=",
-          "content": {
-            "field":"sample.pcr_target.pcr_target_locus",
-            "value":"IGH"
-          }
+        "content": {
+          "field":"sample.pcr_target.pcr_target_locus",
+          "value":"IGH"
         }
+      },
       {
         "op":"contains", 
         "content": {
@@ -43,7 +43,8 @@
           "field":"nucleic_acid_processing.template_class",
           "value":"DNA"
         }
-      },      {
+      },
+      {
         "op":">=",
         "content": {
           "field":"sequencing_run.read_length",
