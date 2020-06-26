@@ -1,0 +1,29 @@
+{
+  "filters": {
+    "op":"and",
+    "content": [
+      {
+        "op":"=",
+        "content": {
+          "field":"subject.organism.value",
+          "value":"Homo sapiens"
+        }
+      },
+      {
+        "op":"=",
+        "content": {
+          "field":"sample.template_class",
+          "value":"DNA"
+        }
+      },
+      {
+        "op":"contains",
+        "content": {
+          "field":"sample.sequencing_platform",
+          "value":"llumina"
+        }
+      }
+    ]
+  },
+  "facets":"sample.template_class"
+}
