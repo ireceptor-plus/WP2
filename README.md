@@ -1,5 +1,5 @@
 # Repository Scale Up/Scale Out (WP2)
-To create a critical mass of well curated, international repositories within the AIRR Data Commons, each with 100s of millions or billions of annotated sequences, that are of scientific significance to the general AIRR Community. To be in the position to “scale-out” the AIRR Data Commons repository network to 10s or 100s of independent federated repositories at the end of the project.
+Goals: To create a critical mass of well curated, international repositories within the AIRR Data Commons, each with 100s of millions or billions of annotated sequences, that are of scientific significance to the general AIRR Community. To be in the position to “scale-out” the AIRR Data Commons repository network to 10s or 100s of independent federated repositories at the end of the project.
 
 There will be three key deliverables from this work package:
 1.	The development and application of techniques to increase the amount of AIRR-seq data (and its related metadata) in a single AIRR Repository (Scale Up).
